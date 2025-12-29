@@ -2,7 +2,6 @@
 
 A robust and secure real-time messaging platform built with Django Channels and React. This application provides a seamless chat experience with enterprise-grade security features.
 
- ![Banner Placeholder](https://via.placeholder.com/1200x400?text=Secure+Chat+Application)
 
 ## Features
 
