@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const token = 'YOUR_JWT_TOKEN_HERE'; // Replace with actual token
+        const roomId = '1'; // Replace with actual room ID
+        const socket = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/?token=${token}`);
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const messages = document.getElementById('messages');
+            messages.innerHTML += `<p><b>${data.sender_username}:</b> ${data.content}</p>`;
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value;
+            if (message) {
+                socket.send(JSON.stringify({
+                    'type': 'chat_message',
+                    'content': message
+                }));
+                input.value = '';
+            }
+        }
+
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
